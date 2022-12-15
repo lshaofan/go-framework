@@ -1,6 +1,12 @@
+/*
+ * 版权所有 (c) 2022 伊犁绿鸟网络科技团队。
+ *  bind.go  bind.go 2022-11-30
+ */
+
 package request
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"github.com/lshaofan/go-framework/application/dto/response"
@@ -54,6 +60,17 @@ func BingForm(c *gin.Context, obj interface{}) (err error) {
 // BingUri uri参数验证器
 func BingUri(c *gin.Context, obj interface{}) (err error) {
 	err = c.ShouldBindUri(obj)
+	if err != nil {
+		fmt.Println("bing err: ", err)
+		response.ParamError(getValidMsg(err, obj), c)
+		return
+	}
+	return nil
+}
+
+// Bing BingHeader header参数验证器
+func Bing(c *gin.Context, obj interface{}) (err error) {
+	err = c.ShouldBind(obj)
 	if err != nil {
 		response.ParamError(getValidMsg(err, obj), c)
 		return

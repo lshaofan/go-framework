@@ -1,7 +1,13 @@
+/*
+ * 版权所有 (c) 2022 伊犁绿鸟网络科技团队。
+ *  redis_test.go  redis_test.go 2022-11-30
+ */
+
 package test
 
 import (
 	store2 "github.com/lshaofan/go-framework/infrastructure/store"
+	"github.com/lshaofan/go-framework/utils"
 	"testing"
 	"time"
 )
@@ -81,4 +87,34 @@ func TestDel(t *testing.T) {
 	}
 
 	t.Log("删除结果：", ret)
+}
+
+// 测试设置hash
+func TestHSet(t *testing.T) {
+	ret := store2.NewOperation(conf).HSet("testHSet", "name13", "张w22三里斯").Unwrap()
+	if ret.(int64) != 1 {
+		t.Error("设置失败：", ret)
+	}
+	t.Log("设置结果：", ret)
+}
+
+// 测试HMSet
+func TestHMSet(t *testing.T) {
+	dat := make([]string, 0)
+	dat = append(dat, "name1", "张三")
+	dat = append(dat, "name2", "李四")
+	data := map[string]interface{}{
+		"name122": "张三1",
+		"name222": dat,
+	}
+	stringString, err := utils.MapStringInterfaceToStringString(data)
+	if err != nil {
+		t.Error("设置失败：", err)
+	}
+
+	ret := store2.NewOperation(conf).HMSet("testHMSet", stringString).Unwrap()
+	if !ret.(bool) {
+		t.Error("设置失败：", ret)
+	}
+	t.Log("设置结果：", ret)
 }

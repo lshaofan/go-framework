@@ -1,3 +1,8 @@
+/*
+ * 版权所有 (c) 2022 伊犁绿鸟网络科技团队。
+ *  wg.go  wg.go 2022-11-30
+ */
+
 package utils
 
 import "sync"
