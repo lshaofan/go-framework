@@ -34,6 +34,7 @@ func Redis() *redis.Client {
 		pong, err := redisClient.Ping(redisClient.Context()).Result()
 		if err != nil {
 			panic(fmt.Sprintf("redis初始化连接失败：%s", err.Error()))
+			return
 		}
 		fmt.Println("redis链接"+pong, err)
 	})

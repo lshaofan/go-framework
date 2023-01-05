@@ -6,6 +6,7 @@
 package test
 
 import (
+	"fmt"
 	store2 "github.com/lshaofan/go-framework/infrastructure/store"
 	"github.com/lshaofan/go-framework/utils"
 	"testing"
@@ -13,6 +14,11 @@ import (
 )
 
 var conf *store2.RedisConfig
+
+const (
+	// MiniProgramServiceListCacheKey 小程序首页服务列表缓存key
+	MiniProgramServiceListCacheKey = "mini_program_service_list_platform_id:%d"
+)
 
 func init() {
 	conf = &store2.RedisConfig{
@@ -117,4 +123,11 @@ func TestHMSet(t *testing.T) {
 		t.Error("设置失败：", ret)
 	}
 	t.Log("设置结果：", ret)
+}
+
+// 测试获取服务列表
+func TestGetServiceList(t *testing.T) {
+
+	ret := store2.NewOperation(conf).Get(fmt.Sprintf(MiniProgramServiceListCacheKey, 1))
+	t.Log(ret)
 }

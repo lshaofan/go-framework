@@ -6,6 +6,7 @@
 package http
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	res "github.com/lshaofan/go-framework/application/dto/response"
 	repo "github.com/lshaofan/go-framework/domain/repository"
@@ -27,9 +28,19 @@ func Exception() gin.HandlerFunc {
 				logFields["url"] = c.Request.URL
 				logFields["method"] = c.Request.Method
 				logger.AddErrorLog(logFields)
+				var message string
+				// 判断err类型
+				switch expr := err.(type) {
+				case string:
+					message = expr
+				case error:
+					message = expr.Error()
+				default:
+					message = fmt.Sprintf("%v", expr)
+				}
 				c.AbortWithStatusJSON(http.StatusInternalServerError, res.Response{
 					Code:    -1,
-					Message: err.(error).Error(),
+					Message: message,
 				})
 				return
 			}

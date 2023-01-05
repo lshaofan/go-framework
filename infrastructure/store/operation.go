@@ -34,6 +34,7 @@ func NewOperation(c *RedisConfig) *Operation {
 
 // Get 获取单个值
 func (o *Operation) Get(key string) *Result {
+	key = Conf.Prefix + key
 	return NewResult(Redis().Get(o.ctx, key).Result())
 }
 

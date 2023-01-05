@@ -10,6 +10,7 @@ import (
 	"net/http"
 )
 
+// ErrorModel 错误模型
 type ErrorModel struct {
 	Code       int         `json:"code" example:"-1"`
 	Message    string      `json:"message" example:"操作失败"`
@@ -22,6 +23,7 @@ const (
 	SUCCESS = 0
 )
 
+// Response 返回数据
 type Response struct {
 	Code    int         `json:"code" example:"0"`
 	Result  interface{} `json:"result"`

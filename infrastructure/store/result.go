@@ -20,6 +20,7 @@ type Result struct {
 	Err          error
 	SliceResult  []interface{}
 	MapResult    map[string]interface{}
+	MapStringStr map[string]string
 }
 
 func NewResult(result interface{}, err error) *Result {
@@ -34,6 +35,8 @@ func NewResult(result interface{}, err error) *Result {
 		r.SliceResult = expr
 	case map[string]interface{}:
 		r.MapResult = expr
+	case map[string]string:
+		r.MapStringStr = expr
 	default:
 		return r
 	}
@@ -89,6 +92,22 @@ func (r *Result) UnwrapMapWithDefault(defaultValue map[string]interface{}) map[s
 	return r.MapResult
 }
 
+// UnwrapMapStringStr 获取map string string
+func (r *Result) UnwrapMapStringStr() map[string]string {
+	if r.Err != nil {
+		panic(r.Err)
+	}
+	return r.MapStringStr
+}
+
+// UnwrapMapStringStrWithDefault 获取map string string 结果 如果有错误则返回默认值
+func (r *Result) UnwrapMapStringStrWithDefault(defaultValue map[string]string) map[string]string {
+	if r.Err != nil {
+		return defaultValue
+	}
+	return r.MapStringStr
+}
+
 type dbGetter func() interface{}
 type DBGetter struct {
 	Getter    dbGetter
@@ -101,7 +120,7 @@ func NewDBGetter(getter dbGetter, operation *Operation, attrs ...*Attr) *DBGette
 	return &DBGetter{Getter: getter, Attrs: attrs, Operation: operation}
 }
 
-// Get 取数据
+// Get 取数据  取出数据后任何格式数据均需要json 反序列化
 func (g *DBGetter) Get(key string) *Result {
 	ret := g.Operation.Get(key).UnWarpWithDefault("")
 	if ret == "" {
