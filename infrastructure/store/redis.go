@@ -30,6 +30,8 @@ func Redis() *redis.Client {
 			MinIdleConns: 10,
 			DialTimeout:  5 * time.Second, // 超时时间
 			ReadTimeout:  3 * time.Second, // 读取超时时间
+			// 开启 notify-keyspace-events KEA
+
 		})
 		pong, err := redisClient.Ping(redisClient.Context()).Result()
 		if err != nil {
