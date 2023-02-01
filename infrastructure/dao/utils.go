@@ -17,18 +17,19 @@ type PageRequest struct {
 	Total    int64                  // total 总数
 	Where    map[string]interface{} // 条件and 自行拼接
 	OrWhere  map[string]interface{} // 条件or 自行拼接
-	Asc      string                 // 正序排序
-	Desc     string                 //倒序排序
+	asc      string                 // 正序排序
+	desc     string                 //倒序排序
 }
 
+// NewPageReq 初始化分页请求参数 默认第一页 每页10条
 func NewPageReq() *PageRequest {
 	return &PageRequest{
 		Page:     1,
 		PageSize: 10,
 		Where:    make(map[string]interface{}),
 		OrWhere:  make(map[string]interface{}),
-		Asc:      "",
-		Desc:     "",
+		asc:      "",
+		desc:     "",
 	}
 }
 
@@ -74,16 +75,26 @@ func Paginate(p *PageRequest) func(db *gorm.DB) *gorm.DB {
 			}
 		}
 		// 拼接正序排序
-		if p.Asc != "" {
-			db.Order(p.Asc)
+		if p.asc != "" {
+			db.Order(p.asc)
 		}
 		// 拼接倒序排序
-		if p.Desc != "" {
-			db.Order(p.Desc)
+		if p.desc != "" {
+			db.Order(p.desc)
 		}
 		offset := (p.Page - 1) * p.PageSize
 		// 分页查询
 		return db.Offset(offset).Limit(p.PageSize)
 
 	}
+}
+
+// AscSort 正序排序
+func (p *PageRequest) AscSort(field string) {
+	p.asc = field + " asc"
+}
+
+// DescSort 倒序排序
+func (p *PageRequest) DescSort(field string) {
+	p.desc = field + " desc"
 }

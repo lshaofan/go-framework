@@ -7,6 +7,7 @@ package response
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/lshaofan/go-framework/application/dto/constant"
 	"net/http"
 )
 
@@ -65,6 +66,36 @@ func OkWithMessage(message string, c *gin.Context) {
 // Success 成功返回数据
 func Success(result interface{}, message string, c *gin.Context) {
 	Result(SUCCESS, result, message, http.StatusOK, c)
+}
+
+// CreateOk 创建成功
+func CreateOk(c *gin.Context) {
+	Result(SUCCESS, nil, constant.CreateSuccess, http.StatusOK, c)
+}
+
+// CreateOkWithData 创建成功带返回数据
+func CreateOkWithData(data, c *gin.Context) {
+	Result(SUCCESS, data, constant.CreateSuccess, http.StatusOK, c)
+}
+
+// UpdateOk 更新成功
+func UpdateOk(c *gin.Context) {
+	Result(SUCCESS, nil, constant.UpdateSuccess, http.StatusOK, c)
+}
+
+// UpdateOkWithData 更新成功带返回数据
+func UpdateOkWithData(data, c *gin.Context) {
+	Result(SUCCESS, data, constant.UpdateSuccess, http.StatusOK, c)
+}
+
+// DeleteOk 删除成功
+func DeleteOk(c *gin.Context) {
+	Result(SUCCESS, nil, constant.DeleteSuccess, http.StatusOK, c)
+}
+
+// DeleteOkWithData 删除成功带返回数据
+func DeleteOkWithData(data, c *gin.Context) {
+	Result(SUCCESS, data, constant.DeleteSuccess, http.StatusOK, c)
 }
 
 // Fail 默认错误

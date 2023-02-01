@@ -7,10 +7,10 @@ package request
 
 // ListRequest 列表请求参数
 type ListRequest struct {
-	Page     int    `form:"page" json:"page" binding:"omitempty,min=1" msg:"页码最小为1" example:"1"`
-	PageSize int    `form:"page_size" json:"page_size" binding:"omitempty,min=1" msg:"每页数量最小为1" example:"10"`
-	Order    string `form:"order" json:"order" msg:"排序" example:"descend"`
-	Field    string `form:"field" json:"field" msg:"排序字段" example:"id"`
+	Page     int    `form:"page" json:"page" query:"page" binding:"omitempty,min=1" msg:"页码最小为1" example:"1"`
+	PageSize int    `form:"page_size" json:"page_size" query:"page_size" binding:"omitempty,min=1" msg:"每页数量最小为1" example:"10"`
+	Order    string `form:"order" json:"order" query:"order" msg:"排序" example:"descend"`
+	Field    string `form:"field" json:"field" query:"field" msg:"排序字段" example:"id"`
 }
 
 // ListResponse 列表响应参数
