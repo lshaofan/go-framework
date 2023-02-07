@@ -10,7 +10,13 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"github.com/lshaofan/go-framework/application/dto/response"
+	"mime/multipart"
 	"reflect"
+)
+
+const (
+	// 文件不存在
+	FILE_NOT_EXIST = "file not exist"
 )
 
 // getValidMsg 参数验证器
@@ -76,4 +82,23 @@ func Bing(c *gin.Context, obj interface{}) (err error) {
 		return
 	}
 	return nil
+}
+
+// BingFile file参数验证器
+func BingFile(c *gin.Context, name ...string) (file *multipart.FileHeader, err error) {
+	if len(name) > 0 {
+		file, err = c.FormFile(name[0])
+		if err != nil {
+			response.ParamError(FILE_NOT_EXIST, c)
+			return
+		}
+		return
+	} else {
+		file, err = c.FormFile("file")
+		if err != nil {
+			response.ParamError(FILE_NOT_EXIST, c)
+			return
+		}
+		return
+	}
 }
