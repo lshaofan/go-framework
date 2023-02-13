@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/lshaofan/go-framework/application/help/console"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/resolver"
 	"net"
@@ -81,17 +82,16 @@ func (s *RpcServer) InitGrpcResolver() {
 
 // RunGrpcServer 运行Grpc服务
 func (s *RpcServer) RunGrpcServer() error {
-	fmt.Println("grpc 服务启动中...")
+	console.Success("grpc服务启动中...")
 	var err error
 	s.Listen, err = net.Listen("tcp", s.GetRpcServerAddr())
 	if err != nil {
 		return err
 	}
 	if err := s.srv.Serve(s.Listen); err != nil {
-		fmt.Println("grpc 服务启动失败", err)
+		console.Error(fmt.Sprintf("grpc 服务启动失败:%s", err))
 		return err
 	}
-	fmt.Println("grpc 服务启动成功!!")
 	return nil
 }
 
@@ -99,7 +99,7 @@ func (s *RpcServer) RunGrpcServer() error {
 func (s *RpcServer) Close() {
 	err := s.Listen.Close()
 	if err != nil {
-		fmt.Println("关闭grpc服务失败", err)
+		console.Error(fmt.Sprintf("grpc 服务关闭失败:%s", err))
 		return
 	}
 	defer s.srv.GracefulStop()

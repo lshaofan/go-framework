@@ -3,6 +3,7 @@ package etcd
 import (
 	"context"
 	"fmt"
+	"github.com/lshaofan/go-framework/application/help/console"
 	clientv3 "go.etcd.io/etcd/client/v3"
 	"go.etcd.io/etcd/client/v3/naming/endpoints"
 	namResolver "go.etcd.io/etcd/client/v3/naming/resolver"
@@ -175,13 +176,13 @@ func (e *Registry) Close() {
 func (e *Registry) etcdUnRegister() error {
 	cli, err := e.GetClient()
 	if err != nil {
-		fmt.Println("etcdUnRegister err:", err)
+		console.Error(fmt.Sprintf("etcdUnRegister err:%s", err))
 		return err
 	}
 	if cli != nil {
 		em, err := e.GetEtcdManager(e.options.srv.GetRpcServerName())
 		if err != nil {
-			fmt.Println("etcdUnRegister err:", err)
+			console.Error(fmt.Sprintf("etcdUnRegister err:%s", err))
 			return err
 		}
 		err = em.DeleteEndpoint(
@@ -191,7 +192,7 @@ func (e *Registry) etcdUnRegister() error {
 			))
 
 		if err != nil {
-			fmt.Println("etcdUnRegister err:", err)
+			console.Error(fmt.Sprintf("etcdUnRegister err:%s", err))
 			return err
 		}
 	}

@@ -28,6 +28,7 @@ func init() {
 }
 
 func New(args interface{}) *logrus.Logger {
+
 	// 获取当前时间
 	now := time.Now()
 	// 获取当前年月日

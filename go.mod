@@ -8,9 +8,11 @@ require (
 	github.com/go-playground/validator/v10 v10.11.1
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/lestrrat-go/file-rotatelogs v2.4.0+incompatible
+	github.com/nsqio/go-nsq v1.1.0
 	github.com/sirupsen/logrus v1.9.0
 	go.etcd.io/etcd/client/v3 v3.5.7
 	golang.org/x/crypto v0.0.0-20211215153901-e495a2d5b3d3
+	google.golang.org/grpc v1.41.0
 	gorm.io/gorm v1.24.2
 )
 
@@ -25,6 +27,7 @@ require (
 	github.com/goccy/go-json v0.9.7 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
+	github.com/golang/snappy v0.0.1 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.4 // indirect
 	github.com/jonboulle/clockwork v0.3.0 // indirect
@@ -46,7 +49,6 @@ require (
 	golang.org/x/sys v0.0.0-20220715151400-c0bba94af5f8 // indirect
 	golang.org/x/text v0.3.7 // indirect
 	google.golang.org/genproto v0.0.0-20210602131652-f16073e35f0c // indirect
-	google.golang.org/grpc v1.41.0 // indirect
 	google.golang.org/protobuf v1.28.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
