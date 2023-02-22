@@ -34,10 +34,11 @@ func WithName(name string) Option {
 }
 
 type Logger struct {
-	Log   *logrus.Entry
-	path  string
-	level logrus.Level
-	name  string
+	Log    *logrus.Entry
+	path   string
+	level  logrus.Level
+	name   string
+	Logger *logrus.Logger
 }
 
 func NewLogger(opts ...Option) *Logger {
@@ -70,10 +71,16 @@ func NewLogger(opts ...Option) *Logger {
 	})
 	lg.SetLevel(l.level)
 	l.Log = logrus.NewEntry(lg)
+	l.Logger = lg
 	return l
 }
 
 // Get logrus entry
 func (l *Logger) Get() *logrus.Entry {
 	return l.Log
+}
+
+// GetLogger loggers logger
+func (l *Logger) GetLogger() *logrus.Logger {
+	return l.Logger
 }

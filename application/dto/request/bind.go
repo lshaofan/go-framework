@@ -15,13 +15,14 @@ import (
 )
 
 const (
-	// 文件不存在
-	FILE_NOT_EXIST = "file not exist"
+	// FileNotExist 文件不存在
+	FileNotExist = "file not exist"
 )
 
 // getValidMsg 参数验证器
 func getValidMsg(err error, obj interface{}) string {
 	getObj := reflect.TypeOf(obj)
+
 	if errs, ok := err.(validator.ValidationErrors); ok {
 		for _, e := range errs {
 			if f, exist := getObj.Elem().FieldByName(e.Field()); exist {
@@ -37,6 +38,7 @@ func BingJson(c *gin.Context, obj interface{}) (err error) {
 	err = c.ShouldBindJSON(obj)
 	if err != nil {
 		response.ParamError(getValidMsg(err, obj), c)
+
 		return
 	}
 	return nil
@@ -89,14 +91,14 @@ func BingFile(c *gin.Context, name ...string) (file *multipart.FileHeader, err e
 	if len(name) > 0 {
 		file, err = c.FormFile(name[0])
 		if err != nil {
-			response.ParamError(FILE_NOT_EXIST, c)
+			response.ParamError(FileNotExist, c)
 			return
 		}
 		return
 	} else {
 		file, err = c.FormFile("file")
 		if err != nil {
-			response.ParamError(FILE_NOT_EXIST, c)
+			response.ParamError(FileNotExist, c)
 			return
 		}
 		return

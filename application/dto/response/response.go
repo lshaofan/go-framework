@@ -15,6 +15,7 @@ const (
 	UpdateSuccess = "更新成功"
 	DeleteSuccess = "删除成功"
 	GetSuccess    = "获取成功"
+	OkSuccess     = "操作成功"
 )
 
 // ErrorModel 错误模型
