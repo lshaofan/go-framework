@@ -13,7 +13,7 @@ import (
 	"time"
 )
 
-var conf *store2.RedisConfig
+var conf store2.RedisConfig
 
 const (
 	// MiniProgramServiceListCacheKey 小程序首页服务列表缓存key
@@ -21,9 +21,9 @@ const (
 )
 
 func init() {
-	conf = &store2.RedisConfig{
+	conf = store2.RedisConfig{
 		Host:     "127.0.0.1",
-		Port:     63791,
+		Port:     6379,
 		Prefix:   "gb_app:",
 		Password: "",
 		Database: 0,

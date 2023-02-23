@@ -12,6 +12,6 @@ func NewConfig(appId, appSecret string, c store.RedisConfig) *Config {
 	return &Config{
 		AppId:     appId,
 		AppSecret: appSecret,
-		Cache:     *store.NewOperation(&c),
+		Cache:     *store.NewOperation(c),
 	}
 }

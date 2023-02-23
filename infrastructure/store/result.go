@@ -110,9 +110,10 @@ func (r *Result) UnwrapMapStringStrWithDefault(defaultValue map[string]string) m
 
 type dbGetter func() interface{}
 type DBGetter struct {
-	Getter    dbGetter
-	Err       error
-	Attrs     []*Attr
+	Getter dbGetter
+	Err    error
+	Attrs  []*Attr
+
 	Operation *Operation
 }
 

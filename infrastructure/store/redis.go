@@ -12,33 +12,49 @@ import (
 	"time"
 )
 
+type RedisStore struct {
+	client *redis.Client
+	Once   sync.Once
+}
+
+type RedisConfig struct {
+	Host     string
+	Port     int
+	Prefix   string
+	Password string
+	Database int
+}
+
 var (
-	redisClient     *redis.Client
-	redisClientOnce sync.Once
+	redisStore RedisStore
 )
 
-func Redis() *redis.Client {
-	redisClientOnce.Do(func() {
-		redisClient = redis.NewClient(&redis.Options{
+func Redis(c RedisConfig) *redis.Client {
+	redisStore.Once.Do(func() {
+		redisStore.client = redis.NewClient(&redis.Options{
 			Addr: fmt.Sprintf("%s:%d",
-				Conf.Host,
-				Conf.Port,
+				c.Host,
+				c.Port,
 			),
-			Password:     Conf.Password,
-			DB:           Conf.Database,
+			Password:     c.Password,
+			DB:           c.Database,
 			PoolSize:     15,
 			MinIdleConns: 10,
 			DialTimeout:  5 * time.Second, // 超时时间
 			ReadTimeout:  3 * time.Second, // 读取超时时间
 			// 开启 notify-keyspace-events KEA
-
 		})
-		pong, err := redisClient.Ping(redisClient.Context()).Result()
+		pong, err := redisStore.client.Ping(redisStore.client.Context()).Result()
 		if err != nil {
 			panic(fmt.Sprintf("redis初始化连接失败：%s", err.Error()))
 			return
 		}
 		fmt.Println("redis链接"+pong, err)
 	})
-	return redisClient
+	return redisStore.client
+}
+
+// GetClient 获取client
+func (r *RedisStore) GetClient() *redis.Client {
+	return r.client
 }
