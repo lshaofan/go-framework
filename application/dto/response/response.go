@@ -20,8 +20,8 @@ const (
 
 // ErrorModel 错误模型
 type ErrorModel struct {
-	Code       int         `json:"code" example:"-1"`
-	Message    string      `json:"message" example:"操作失败"`
+	Code       int         `json:"code" `
+	Message    string      `json:"message" `
 	Error      interface{} `json:"result"`
 	HttpStatus int         `json:"httpStatus" swaggerignore:"true"`
 }
@@ -33,17 +33,17 @@ const (
 
 // Response 返回数据
 type Response struct {
-	Code    int         `json:"code" example:"0"`
+	Code    int         `json:"code" `
 	Result  interface{} `json:"result"`
-	Message string      `json:"message" example:"操作成功"`
+	Message string      `json:"message" `
 }
 
 // PageList  分页数据
 type PageList[T interface{}] struct {
-	Total    int64 `json:"total" example:"100"`
+	Total    int64 `json:"total" `
 	Data     []T   `json:"data" `
-	Page     int   `json:"page" example:"1"`
-	PageSize int   `json:"page_size" example:"10"`
+	Page     int   `json:"page" `
+	PageSize int   `json:"page_size" `
 }
 
 // NewError 创建错误
