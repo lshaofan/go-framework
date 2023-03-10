@@ -144,7 +144,6 @@ func (s *Server) Init() error {
 			s.etcdConfig.DialTimeout = s.etcdDialTimeout
 		}
 	}
-
 	s.ctx = context.Background()
 	s.etcdClient, err = clientv3.New(*s.etcdConfig)
 	if err != nil {
