@@ -16,6 +16,8 @@ import (
 	"github.com/lshaofan/go-framework/infrastructure/dao"
 )
 
+var ValidateTags = []string{"json", "form", "query", "uri", "header"}
+
 type GinRequest struct {
 	c *gin.Context
 }
@@ -51,6 +53,37 @@ func NewValidate() *Validate {
 		validate.trans = trans
 	})
 	return validate
+}
+
+// GetValidateErrMessage 获取校验错误信息 传入错误对象和对象 对象tag为json form uri query header
+func (g *GinRequest) GetValidateErrMessage(err error, obj interface{}) string {
+	v := NewValidate()
+	getObj := reflect.TypeOf(obj)
+	var result string
+	// 判断err 是否是 validator.ValidationErrors 类型
+	if _, ok := err.(validator.ValidationErrors); !ok {
+		result = err.Error()
+	} else {
+		errors := err.(validator.ValidationErrors)
+		for _, err := range errors {
+			if f, exist := getObj.Elem().FieldByName(err.Field()); exist {
+				var tag string
+				for _, tagValueStr := range ValidateTags {
+					tagStr, ok := f.Tag.Lookup(tagValueStr)
+					if ok {
+						tag = tagStr
+						break
+					}
+				}
+				result = tag + strings.Replace(err.Translate(v.trans), err.Field(), "", -1)
+			} else {
+				result = err.Translate(v.trans)
+			}
+			return result
+		}
+	}
+	return result
+
 }
 
 // TranslateToString    tag 为结构体的tag定义的验证字段来源  如：json form uri query  返回第一条验证错误信息的字符串
