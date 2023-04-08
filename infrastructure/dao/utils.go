@@ -10,6 +10,75 @@ import (
 	"gorm.io/gorm"
 )
 
+type Util[T interface{}] struct {
+	DB    *gorm.DB
+	Model *T
+}
+
+func NewUtil[T interface{}](db *gorm.DB) *Util[T] {
+	return &Util[T]{DB: db}
+}
+
+// GetOne 获取一条记录
+func (u *Util[T]) GetOne(model *T) error {
+	return u.DB.Model(u.Model).First(model).Error
+}
+
+// GetList 获取多条记录
+func (u *Util[T]) GetList(request *PageRequest) (*response.PageList[T], error) {
+	list := &response.PageList[T]{
+		Data: make([]T, 0),
+	}
+	err := u.DB.Model(u.Model).Scopes(Paginate(request)).Find(&list.Data).Offset(-1).Count(&list.Total).Error
+	list.Page = request.Page
+	list.PageSize = request.PageSize
+	if err != nil {
+		return nil, err
+
+	}
+	return list, nil
+}
+
+// GetAll 获取所有记录
+func (u *Util[T]) GetAll() ([]T, error) {
+	all := make([]T, 0)
+	err := u.DB.Model(u.Model).Find(&all).Error
+	if err != nil {
+		return nil, err
+	}
+	return all, nil
+}
+
+// CreateOne 创建一条记录
+func (u *Util[T]) CreateOne(model *T) error {
+	return u.DB.Model(u.Model).Create(model).Error
+}
+
+// CreateMany 创建多条记录
+func (u *Util[T]) CreateMany(model *[]T) error {
+	return u.DB.Model(u.Model).Create(model).Error
+}
+
+// UpdateOne 更新一条记录
+func (u *Util[T]) UpdateOne(model *T) error {
+	return u.DB.Model(u.Model).Updates(model).Error
+}
+
+// UpdateMany 更新多条记录
+func (u *Util[T]) UpdateMany(model *[]T) error {
+	return u.DB.Model(u.Model).Updates(model).Error
+}
+
+// DeleteOne 删除一条记录
+func (u *Util[T]) DeleteOne(model *T) error {
+	return u.DB.Model(u.Model).Delete(model).Error
+}
+
+// DeleteMany 删除多条记录
+func (u *Util[T]) DeleteMany(model *[]T) error {
+	return u.DB.Model(u.Model).Delete(model).Error
+}
+
 // PageRequest 分页请求的参数
 type PageRequest struct {
 	Page     int                    // 页码
