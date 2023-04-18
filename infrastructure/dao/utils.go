@@ -79,6 +79,11 @@ func (u *Util[T]) DeleteMany(model *[]T) error {
 	return u.DB.Model(u.Model).Delete(model).Error
 }
 
+// SetDB 修改DB
+func (u *Util[T]) SetDB(fn func(db *gorm.DB) *gorm.DB) {
+	u.DB = fn(u.DB)
+}
+
 // PageRequest 分页请求的参数
 type PageRequest struct {
 	Page     int                    // 页码

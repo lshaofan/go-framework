@@ -21,7 +21,7 @@ var (
 	// UsernameOrPasswordError 用户名或密码错误
 	UsernameOrPasswordError = response.NewError(10003, "用户名或密码错误", nil, http.StatusUnauthorized)
 	// PlatformNotExist 平台不存在
-	PlatformNotExist = response.NewError(10004, "平台不存在", nil, http.StatusUnauthorized)
+	PlatformNotExist = response.NewError(10004, "平台不存在", nil, http.StatusPreconditionFailed)
 	// PlatformIdCanNotEmpty 平台id不能为空
-	PlatformIdCanNotEmpty = response.NewError(10005, "平台id不能为空", nil, http.StatusUnauthorized)
+	PlatformIdCanNotEmpty = response.NewError(10005, "平台id不能为空", nil, http.StatusPreconditionFailed)
 )
