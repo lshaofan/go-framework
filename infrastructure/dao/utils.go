@@ -11,12 +11,16 @@ import (
 )
 
 type Util[T interface{}] struct {
-	DB    *gorm.DB
-	Model *T
+	DB                *gorm.DB
+	Model             *T
+	PageRequestParams *PageRequest
 }
 
 func NewUtil[T interface{}](db *gorm.DB) *Util[T] {
-	return &Util[T]{DB: db}
+	return &Util[T]{
+		DB:                db,
+		PageRequestParams: NewPageReq(),
+	}
 }
 
 // GetOne 获取一条记录

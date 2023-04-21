@@ -14,14 +14,14 @@ type CommonError struct {
 }
 
 func (c *CommonError) Error() string {
-	return fmt.Sprintf("%s Error , errcode=%d , errmsg=%s", c.apiName, c.ErrCode, c.ErrMsg)
+	return fmt.Sprintf("%s Result , errcode=%d , errmsg=%s", c.apiName, c.ErrCode, c.ErrMsg)
 }
 
 // DecodeWithError 将返回值按照解析
 func DecodeWithError(response []byte, obj interface{}, apiName string) error {
 	err := json.Unmarshal(response, obj)
 	if err != nil {
-		return fmt.Errorf("json Unmarshal Error, err=%v", err)
+		return fmt.Errorf("json Unmarshal Result, err=%v", err)
 	}
 	responseObj := reflect.ValueOf(obj)
 	if !responseObj.IsValid() {

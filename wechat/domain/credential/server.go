@@ -53,7 +53,7 @@ func GetTicketFromServer(accessToken string) (ticket ResTicket, err error) {
 		return
 	}
 	if ticket.Code != 0 {
-		err = fmt.Errorf("getTicket Error : errcode=%d , errmsg=%s", ticket.Code, ticket.Message)
+		err = fmt.Errorf("getTicket Result : errcode=%d , errmsg=%s", ticket.Code, ticket.Message)
 		return
 	}
 	return

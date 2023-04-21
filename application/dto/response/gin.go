@@ -29,7 +29,7 @@ func (g *GinResponse) NewError(code int, message string, result interface{}, htt
 func (g *GinResponse) ThrowError(err *ErrorModel, c *gin.Context) {
 	c.AbortWithStatusJSON(err.HttpStatus, Response{
 		err.Code,
-		err.Error,
+		err.Result,
 		err.Message,
 	})
 
@@ -110,4 +110,14 @@ func (g *GinResponse) ParamError(message string, c *gin.Context) {
 func (g *GinResponse) ParamErrorWithData(message string, data interface{}, c *gin.Context) {
 	err := g.NewError(ERROR, message, data, http.StatusPreconditionFailed)
 	g.ThrowError(err, c)
+}
+
+// FailWithMessageByStatusBadRequest 400错误
+func (g *GinResponse) FailWithMessageByStatusBadRequest(message string, c *gin.Context) {
+	g.ThrowError(g.NewError(ERROR, message, nil, http.StatusBadRequest), c)
+}
+
+// SuccessWithData 成功返回数据
+func (g *GinResponse) SuccessWithData(result interface{}, c *gin.Context) {
+	g.Result(SUCCESS, result, GetSuccess, http.StatusOK, c)
 }

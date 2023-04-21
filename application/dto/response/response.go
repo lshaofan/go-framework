@@ -22,8 +22,13 @@ const (
 type ErrorModel struct {
 	Code       int         `json:"code" `
 	Message    string      `json:"message" `
-	Error      interface{} `json:"result"`
+	Result     interface{} `json:"result"`
 	HttpStatus int         `json:"httpStatus" swaggerignore:"true"`
+}
+
+func (e *ErrorModel) Error() string {
+	//TODO implement me
+	return e.Message
 }
 
 const (
@@ -119,10 +124,10 @@ func FailWithMessage(message string, httpStatus int, c *gin.Context) {
 
 // ThrowError 抛出已知错误
 func ThrowError(err *ErrorModel, c *gin.Context) {
-	//Result(err.Code, err.Error, err.Message, err.HttpStatus, c)
+	//Result(err.Code, err.Result, err.Message, err.HttpStatus, c)
 	c.AbortWithStatusJSON(err.HttpStatus, Response{
 		err.Code,
-		err.Error,
+		err.Result,
 		err.Message,
 	})
 
