@@ -65,12 +65,18 @@ func (u *Util[T]) CreateMany(model *[]T) error {
 
 // UpdateOne 更新一条记录
 func (u *Util[T]) UpdateOne(model *T) error {
-	return u.DB.Model(u.Model).Updates(model).Error
+	return u.DB.Model(model).Updates(model).Error
+}
+
+// UpdateOneColumn 根据字段名更新单列
+func (u *Util[T]) UpdateOneColumn(model *T, column ...string) error {
+	return u.DB.Model(model).Select(column).Updates(model).Error
+
 }
 
 // UpdateMany 更新多条记录
 func (u *Util[T]) UpdateMany(model *[]T) error {
-	return u.DB.Model(u.Model).Updates(model).Error
+	return u.DB.Model(model).Updates(model).Error
 }
 
 // DeleteOne 删除一条记录
@@ -86,6 +92,11 @@ func (u *Util[T]) DeleteMany(model *[]T) error {
 // SetDB 修改DB
 func (u *Util[T]) SetDB(fn func(db *gorm.DB) *gorm.DB) {
 	u.DB = fn(u.DB)
+}
+
+// GetDB 获取DB
+func (u *Util[T]) GetDB() *gorm.DB {
+	return u.DB
 }
 
 // PageRequest 分页请求的参数
