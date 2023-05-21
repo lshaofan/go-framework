@@ -43,6 +43,19 @@ func (u *Util[T]) GetList(request *PageRequest) (*response.PageList[T], error) {
 	return list, nil
 }
 
+// GetListWithData  获取多条记录 使用传入的data进行返回赋值 ， 第二个参数需要指针
+func (u *Util[T]) GetListWithData(request *PageRequest, data interface{}) (*response.PageList[T], error) {
+	list := &response.PageList[T]{}
+	err := u.DB.Model(u.Model).Scopes(Paginate(request)).Find(data).Offset(-1).Count(&list.Total).Error
+	list.Page = request.Page
+	list.PageSize = request.PageSize
+	if err != nil {
+		return nil, err
+	}
+
+	return list, nil
+}
+
 // GetAll 获取所有记录
 func (u *Util[T]) GetAll() ([]T, error) {
 	all := make([]T, 0)
