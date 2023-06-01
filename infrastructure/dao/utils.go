@@ -8,6 +8,7 @@ package dao
 import (
 	"github.com/lshaofan/go-framework/application/dto/response"
 	"gorm.io/gorm"
+	"strings"
 )
 
 type Util[T interface{}] struct {
@@ -177,26 +178,61 @@ func Paginate(p *PageRequest) func(db *gorm.DB) *gorm.DB {
 			}
 		}
 		// 拼接正序排序
+
 		if p.asc != "" {
-			db.Order(p.asc)
+			// 判断p.asc是否有空格
+			if strings.Contains(p.asc, " ") {
+				// 有空格代表有多个排序字段
+				order := strings.Split(p.asc, " ")
+				var newOrder []string
+				for k, v := range order {
+					// 判断是否是最后一个
+					if k == len(order)-1 {
+						newOrder = append(newOrder, v+" asc")
+					} else {
+						newOrder = append(newOrder, v+" asc, ")
+					}
+
+				}
+				db.Order(newOrder)
+			} else {
+				db.Order(p.asc + " asc")
+			}
+
 		}
 		// 拼接倒序排序
 		if p.desc != "" {
-			db.Order(p.desc)
+			if strings.Contains(p.desc, " ") {
+				order := strings.Split(p.desc, " ")
+				var newOrder []string
+				for k, v := range order {
+
+					// 判断是否是最后一个
+					if k == len(order)-1 {
+						newOrder = append(newOrder, v+" desc")
+					} else {
+						newOrder = append(newOrder, v+" desc, ")
+					}
+
+				}
+				db.Order(newOrder)
+			} else {
+				db.Order(p.desc + " desc")
+			}
+
 		}
 		offset := (p.Page - 1) * p.PageSize
 		// 分页查询
 		return db.Offset(offset).Limit(p.PageSize)
-
 	}
 }
 
-// AscSort 正序排序
+// AscSort 正序排序 多个排序字段使用空格隔开
 func (p *PageRequest) AscSort(field string) {
-	p.asc = field + " asc"
+	p.asc = field
 }
 
-// DescSort 倒序排序
+// DescSort 倒序排序 多个排序字段使用空格隔开
 func (p *PageRequest) DescSort(field string) {
-	p.desc = field + " desc"
+	p.desc = field
 }
