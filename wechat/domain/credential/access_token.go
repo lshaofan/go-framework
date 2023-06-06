@@ -3,9 +3,9 @@ package credential
 import (
 	"context"
 	"fmt"
-	"github.com/go-redis/redis/v8"
 	"github.com/lshaofan/go-framework/application/dto/response"
 	"github.com/lshaofan/go-framework/infrastructure/store"
+	"github.com/redis/go-redis/v9"
 	"sync"
 	"time"
 )

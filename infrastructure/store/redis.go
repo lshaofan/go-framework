@@ -6,8 +6,9 @@
 package store
 
 import (
+	"context"
 	"fmt"
-	"github.com/go-redis/redis/v8"
+	"github.com/redis/go-redis/v9"
 	"sync"
 	"time"
 )
@@ -44,7 +45,8 @@ func Redis(c RedisConfig) *redis.Client {
 			ReadTimeout:  3 * time.Second, // 读取超时时间
 			// 开启 notify-keyspace-events KEA
 		})
-		pong, err := redisStore.client.Ping(redisStore.client.Context()).Result()
+		ctx := context.Background()
+		pong, err := redisStore.client.Ping(ctx).Result()
 		if err != nil {
 			panic(fmt.Sprintf("redis初始化连接失败：%s", err.Error()))
 			return

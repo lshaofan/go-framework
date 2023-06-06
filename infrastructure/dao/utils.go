@@ -184,17 +184,9 @@ func Paginate(p *PageRequest) func(db *gorm.DB) *gorm.DB {
 			if strings.Contains(p.asc, " ") {
 				// 有空格代表有多个排序字段
 				order := strings.Split(p.asc, " ")
-				var newOrder []string
-				for k, v := range order {
-					// 判断是否是最后一个
-					if k == len(order)-1 {
-						newOrder = append(newOrder, v+" asc")
-					} else {
-						newOrder = append(newOrder, v+" asc, ")
-					}
-
+				for _, v := range order {
+					db.Order(v + " asc")
 				}
-				db.Order(newOrder)
 			} else {
 				db.Order(p.asc + " asc")
 			}
@@ -204,22 +196,12 @@ func Paginate(p *PageRequest) func(db *gorm.DB) *gorm.DB {
 		if p.desc != "" {
 			if strings.Contains(p.desc, " ") {
 				order := strings.Split(p.desc, " ")
-				var newOrder []string
-				for k, v := range order {
-
-					// 判断是否是最后一个
-					if k == len(order)-1 {
-						newOrder = append(newOrder, v+" desc")
-					} else {
-						newOrder = append(newOrder, v+" desc, ")
-					}
-
+				for _, v := range order {
+					db.Order(v + " desc")
 				}
-				db.Order(newOrder)
 			} else {
 				db.Order(p.desc + " desc")
 			}
-
 		}
 		offset := (p.Page - 1) * p.PageSize
 		// 分页查询
