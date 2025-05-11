@@ -71,7 +71,6 @@ node_modules/
 /conf/app.yml
 /conf/jwt.yml
 /conf/gateway.yml
-/docs/
 /runtime/
 /docker-compose.yml
 /public/admin/
@@ -80,3 +79,7 @@ node_modules/
 /public/assets/backend/
 /test/runtime/
 
+# SpecStory explanation file
+.specstory/*
+# SpecStory explanation file
+.specstory/.what-is-this.md
