@@ -151,6 +151,8 @@ func HandleList(c *gin.Context, req IBaseRequest, serviceCall func(IBaseRequest)
 func HandleShow(c *gin.Context, req IBaseRequest, serviceCall func(IBaseRequest) *DefaultResult, ctxFunc BaseCtxFunc) {
 	a := NewBaseAction(c)
 	a.ProcessQuery(req, serviceCall, ctxFunc, func(i interface{}) error {
+		return a.Action.BindParam(i)
+	}, func(i interface{}) error {
 		return a.Action.BindUriParam(i)
 	})
 }
@@ -179,6 +181,8 @@ func HandleEdit(c *gin.Context, req IBaseRequest, serviceCall func(IBaseRequest)
 func HandleDelete(c *gin.Context, req IBaseRequest, serviceCall func(IBaseRequest) *DefaultResult, ctxFunc BaseCtxFunc) {
 	a := NewBaseAction(c)
 	a.ProcessDelete(req, serviceCall, ctxFunc, func(i interface{}) error {
+		return a.Action.BindParam(i)
+	}, func(i interface{}) error {
 		return a.Action.BindUriParam(i)
 	})
 }
