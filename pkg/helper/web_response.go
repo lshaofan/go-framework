@@ -2,7 +2,6 @@ package helper
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 )
 
@@ -55,11 +54,9 @@ func (r *DefaultResult) GetError() *ErrorModel {
 
 // SetError 设置错误信息
 func (r *DefaultResult) SetError(err error) {
-	fmt.Println("SetError", err)
 	if err == nil {
 		return
 	}
-	fmt.Println("SetError2", err.Error())
 	// 判断是否为ErrorModel
 	var errModel *ErrorModel
 	if errors.As(err, &errModel) {
