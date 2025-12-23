@@ -103,12 +103,6 @@ func (a *BaseAction) PrepareRequest(req IBaseRequest, ctxFunc BaseCtxFunc, bindF
 		return nil, fmt.Errorf("ctxFunc已返回响应，状态码：%d", a.Context.Writer.Status())
 	}
 
-	// 设置客户端类型
-	clientType := ClientType(a.Context.GetHeader(ClientHeaderKey))
-
-	// 直接通过接口设置客户端类型
-	req.SetClient(clientType)
-
 	// 直接通过接口设置上下文
 	req.SetContext(ctx)
 

@@ -1,23 +1,5 @@
 package helper
 
-type ClientType string
-
-const (
-	ClientAdminType ClientType = "admin"
-	// ClientOpenapiType openapi client type
-	ClientOpenapiType ClientType = "openapi"
-	// ClientWebType web client type
-	ClientWebType ClientType = "web"
-	// ClientAppType app client type
-	ClientAppType ClientType = "app"
-	// ClientH5Type h5 client type
-	ClientH5Type ClientType = "h5"
-	// ClientWechatMiniProgramType wechat mini program client type
-	ClientWechatMiniProgramType ClientType = "wechat_mini_program"
-)
-
-const ClientHeaderKey = "X-Client-Type"
-
 const (
 	ERROR   = -1
 	SUCCESS = 0
